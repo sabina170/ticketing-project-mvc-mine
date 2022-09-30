@@ -9,7 +9,7 @@ public abstract class AbstractMapService <T,U> {
 
     //T- represents object type, U -represents id (for RoleDTO), username (for UserDTO)
 
-    public Map<U, T> map = new HashMap<>();  // this is my DB
+    public Map<U, T> map = new HashMap<>();  // this is my Custom DB
 
     T save( U u, T object){
         map.put(u, object);
