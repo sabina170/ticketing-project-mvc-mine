@@ -28,6 +28,10 @@ public abstract class AbstractMapService <T,U> {
         map.remove(u);
     }
 
+    void update(U u, T object){
+        map.put(u, object);
+    }
+
 
 
 }
