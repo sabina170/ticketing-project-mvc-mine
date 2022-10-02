@@ -1,12 +1,17 @@
 package com.cydeo.bootstrap;
 
+import com.cydeo.dto.ProjectDTO;
 import com.cydeo.dto.RoleDTO;
 import com.cydeo.dto.UserDTO;
 import com.cydeo.enums.Gender;
+import com.cydeo.enums.Status;
+import com.cydeo.service.ProjectService;
 import com.cydeo.service.RoleService;
 import com.cydeo.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
 
 @Component
 public class DataGenerator implements CommandLineRunner {
@@ -14,14 +19,17 @@ public class DataGenerator implements CommandLineRunner {
     private final RoleService roleService; // 1. need to injected
     private final UserService userService; // need to injected
 
-    public DataGenerator(RoleService roleService, UserService userService) {
+    private final ProjectService projectService;
+
+    public DataGenerator(RoleService roleService, UserService userService, ProjectService projectService) {
         this.roleService = roleService; //2. annotated with @Autowier
         this.userService = userService;
+        this.projectService = projectService;
     }
 
     @Override
     public void run(String... args) throws Exception {
-
+        // create sample role objects:
         RoleDTO adminRole = new RoleDTO(1L, "Admin");
         RoleDTO managerRole = new RoleDTO(2L, "Manager");
         RoleDTO employeeRole = new RoleDTO(3L, "Employee");
@@ -33,7 +41,7 @@ public class DataGenerator implements CommandLineRunner {
         roleService.save(managerRole);
         roleService.save(employeeRole);
 
-
+        // create sample user objects:
         UserDTO user1 = new UserDTO("John", "Kesy",
                 "john@cydeo.com", "Abc1", true, "7459684532", managerRole, Gender.MALE);
         UserDTO user5 = new UserDTO("Mike", "Smith",
@@ -59,6 +67,19 @@ public class DataGenerator implements CommandLineRunner {
         userService.save(user6);
         userService.save(user7);
         userService.save(user8);
+
+        // create sample project objects:
+
+        ProjectDTO project1 = new ProjectDTO("Spring MVC", "PR001", user1, LocalDate.now(), LocalDate.now().plusDays(25), "Creating Controllers", Status.OPEN);
+        ProjectDTO project2 = new ProjectDTO("Spring ORM", "PR002", user2, LocalDate.now(), LocalDate.now().plusDays(10), "Creating Database", Status.IN_PROGRESS);
+        ProjectDTO project3 = new ProjectDTO("Spring Container", "PR003", user1, LocalDate.now(), LocalDate.now().plusDays(32), "Creating Container", Status.IN_PROGRESS);
+
+        projectService.save(project1);
+        projectService.save(project2);
+        projectService.save(project3);
+
+
+
 
 
 
