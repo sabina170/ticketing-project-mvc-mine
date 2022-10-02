@@ -3,13 +3,13 @@ package com.cydeo.enums;
 public enum Gender {
 
     MALE("Male"), FEMALE("Female");
-    private String gender;
+    private String value;
 
-    Gender(String gender) {
-        this.gender=gender;
+    Gender(String value) {
+        this.value=value;
     }
 
-    public String getGender() {
-        return gender;
+    public String getValue() {
+        return value;
     }
 }
