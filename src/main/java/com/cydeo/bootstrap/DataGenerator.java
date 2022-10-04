@@ -18,7 +18,6 @@ public class DataGenerator implements CommandLineRunner {
 
     private final RoleService roleService; // 1. need to injected
     private final UserService userService; // need to injected
-
     private final ProjectService projectService;
 
     public DataGenerator(RoleService roleService, UserService userService, ProjectService projectService) {

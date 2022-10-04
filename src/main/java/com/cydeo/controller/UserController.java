@@ -45,7 +45,7 @@ public class UserController {
 
     //update:
     @GetMapping("/update/{username}")
-    public String editUpdate(@PathVariable("username") String username,  Model model){
+    public String editUser(@PathVariable("username") String username,  Model model){
 
         model.addAttribute("user",userService.findById(username));
 
