@@ -1,6 +1,7 @@
 package com.cydeo.controller;
 
 import com.cydeo.dto.TaskDTO;
+import com.cydeo.enums.Status;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
@@ -38,7 +39,7 @@ public class TaskController {
     }
 
 
-    @PostMapping("/create")
+    @PostMapping("/create")  // save function
     public String insertTask(TaskDTO task){
 
         taskService.save(task);
@@ -46,7 +47,7 @@ public class TaskController {
         return "redirect:/task/create";
     }
 
-    @GetMapping("/delete/{id}")
+    @GetMapping("/delete/{id}")  // delete function
     public String deleteTask(@PathVariable("id") Long id){
 
         taskService.deleteById(id);
@@ -54,7 +55,7 @@ public class TaskController {
         return "redirect:/task/create";
     }
 
-    @GetMapping("/update/{taskId}")
+    @GetMapping("/update/{taskId}") // update function - 1st step - retriving
     public String editTask(@PathVariable("taskId") Long taskId, Model model){
 
         model.addAttribute("task", taskService.findById(taskId));
@@ -75,12 +76,61 @@ public class TaskController {
 //        return "redirect:/task/create";
 //    }
 
-    @PostMapping("/update/{id}")
+    @PostMapping("/update/{id}") // update function - 2nd step - save/update this changes in DB(map)
+
+    //{id} - we should put, because we don't have this id in the task form
+    // whenever we click save after making changes, we need to catcher id of this taskDTO that we did change,
+    // then we can set it to our new object that we are saving in DB
+
+    // @PathVariable and .setId() - don't need to put in Spring-Boot, IF! : there is same filed name:
+    // the field name in {} backers ({id}) exactly the same filed name in object TaskDto (id)
+    // it is automatically parsing {id}-value to id field
     public String updateTask(TaskDTO task){
 
         taskService.update(task);
 
         return "redirect:/task/create";
     }
+
+
+    @GetMapping("/employee/pending-tasks")
+    public String employeePendingTasks(Model model){
+
+        model.addAttribute("tasks", taskService.findAllTasksByStatusIsNot(Status.COMPLETED));
+
+        return "/task/pending-tasks";
+    }
+
+    @GetMapping("/employee/archive")
+    public String employeeArchivedTasks(Model model){
+
+        model.addAttribute("tasks", taskService.findAllTasksByStatusIs(Status.COMPLETED));
+
+        return "/task/archive";
+    }
+
+    @GetMapping("/employee/edit/{id}")
+    public String employeeEditTask(@PathVariable Long id, Model model){
+
+        model.addAttribute("task", taskService.findById(id));
+//        model.addAttribute("projects", projectService.findAll());
+//        model.addAttribute("employees", userService.findAllEmployees());
+        model.addAttribute("statuses", Status.values());
+        model.addAttribute("tasks", taskService.findAllTasksByStatusIsNot(Status.COMPLETED));
+
+       return "/task/status-update";
+
+    }
+
+    @PostMapping("/employee/update/{id}")
+    public String employeeUpdateTask(TaskDTO task){
+
+        taskService.updateStatus(task);
+
+        return "redirect:/task/employee/pending-tasks";
+
+    }
+
+
 
 }
