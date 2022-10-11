@@ -55,7 +55,7 @@ public class TaskController {
         return "redirect:/task/create";
     }
 
-    @GetMapping("/update/{taskId}") // update function - 1st step - retriving
+    @GetMapping("/update/{taskId}") // update function - 1st step - retrieving
     public String editTask(@PathVariable("taskId") Long taskId, Model model){
 
         model.addAttribute("task", taskService.findById(taskId));
@@ -82,7 +82,7 @@ public class TaskController {
     // whenever we click save after making changes, we need to catcher id of this taskDTO that we did change,
     // then we can set it to our new object that we are saving in DB
 
-    // @PathVariable and .setId() - don't need to put in Spring-Boot, IF! : there is same filed name:
+    // in PostMapping : @PathVariable and .setId() - don't need to put in Spring-Boot, IF! : there is same filed name:
     // the field name in {} backers ({id}) exactly the same filed name in object TaskDto (id)
     // it is automatically parsing {id}-value to id field
     public String updateTask(TaskDTO task){
@@ -93,6 +93,7 @@ public class TaskController {
     }
 
 
+    //for pending task page:
     @GetMapping("/employee/pending-tasks")
     public String employeePendingTasks(Model model){
 
@@ -101,6 +102,8 @@ public class TaskController {
         return "/task/pending-tasks";
     }
 
+
+    //for archive page:
     @GetMapping("/employee/archive")
     public String employeeArchivedTasks(Model model){
 
@@ -109,11 +112,12 @@ public class TaskController {
         return "/task/archive";
     }
 
+    //1st step for update function on pending task page:
     @GetMapping("/employee/edit/{id}")
     public String employeeEditTask(@PathVariable Long id, Model model){
 
         model.addAttribute("task", taskService.findById(id));
-//        model.addAttribute("projects", projectService.findAll());
+//        model.addAttribute("projects", projectService.findAll()); for fixing line 40-43
 //        model.addAttribute("employees", userService.findAllEmployees());
         model.addAttribute("statuses", Status.values());
         model.addAttribute("tasks", taskService.findAllTasksByStatusIsNot(Status.COMPLETED));
@@ -121,7 +125,7 @@ public class TaskController {
        return "/task/status-update";
 
     }
-
+    //2nd step for update function on pending task page:
     @PostMapping("/employee/update/{id}")
     public String employeeUpdateTask(TaskDTO task){
 

@@ -68,16 +68,14 @@ public class ProjectServiceImpl extends AbstractMapService<ProjectDTO, String>  
                 .filter(project -> project.getAssignedManager().equals(manager))
                 .map(project-> {
 
-                    //All the task belongs to one Manager
-                    List<TaskDTO> taskList = taskService.findTasksByManager(manager);
+                    //All tasks belong to one Manager
+                    List<TaskDTO> taskList = taskService.findAllTasksByManager(manager);
 
-                    int completeTaskCounts = (int) taskList.stream()
-                            .filter(task-> task.getProject().equals(project))
-                            .filter(task->task.getTaskStatus() == Status.COMPLETED)
+                    int completeTaskCounts = (int) taskList.stream()  // cast in int, because count() is returning long
+                            .filter(task-> task.getProject().equals(project) && task.getTaskStatus() == Status.COMPLETED)
                             .count();
                     int unfinishedTaskCounts = (int) taskList.stream()
-                            .filter(task-> task.getProject().equals(project))
-                            .filter(task->task.getTaskStatus() == Status.IN_PROGRESS || task.getTaskStatus() == Status.OPEN)
+                            .filter(task-> task.getProject().equals(project) && task.getTaskStatus() == Status.IN_PROGRESS || task.getTaskStatus() == Status.OPEN)
                             .count();
 
                     project.setCompleteTaskCounts(completeTaskCounts);

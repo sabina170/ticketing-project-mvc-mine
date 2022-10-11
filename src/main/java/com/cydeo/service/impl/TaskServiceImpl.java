@@ -47,6 +47,9 @@ public class TaskServiceImpl extends AbstractMapService<TaskDTO,Long> implements
 //        }if(task.getAssignedDate() == null) {
 //            task.setAssignedDate(LocalDate.now());
 
+
+        // for update function, (for already existing tasks) we should keep status and date of task, so we will do:
+
         TaskDTO foundTask = findById(task.getId());
 
         task.setTaskStatus(foundTask.getTaskStatus());
@@ -63,12 +66,14 @@ public class TaskServiceImpl extends AbstractMapService<TaskDTO,Long> implements
     }
 
     @Override
-    public List<TaskDTO> findTasksByManager(UserDTO manager) {
+    public List<TaskDTO> findAllTasksByManager(UserDTO manager) {
         return findAll().stream()
                 .filter(task->task.getProject().getAssignedManager().equals(manager))
                 .collect(Collectors.toList());
     }
 
+
+    // for pending task page:
     @Override
     public List<TaskDTO> findAllTasksByStatusIsNot(Status status) {
         return findAll().stream()
@@ -77,6 +82,7 @@ public class TaskServiceImpl extends AbstractMapService<TaskDTO,Long> implements
 
     }
 
+    //for archive page:
     @Override
     public List<TaskDTO> findAllTasksByStatusIs(Status status) {
         return findAll().stream()
@@ -84,10 +90,11 @@ public class TaskServiceImpl extends AbstractMapService<TaskDTO,Long> implements
                 .collect(Collectors.toList());
     }
 
+    //for 2nd step of update function on pending task page:
     @Override
     public void updateStatus(TaskDTO task) {
 
-        findById(task.getId()).setTaskStatus(task.getTaskStatus());
+        findById(task.getId()).setTaskStatus(task.getTaskStatus()); // first, status is updated
         update(task);//second step is updated with the new status information.
     }
 }
