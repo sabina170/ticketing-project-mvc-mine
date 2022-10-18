@@ -44,6 +44,7 @@ public class UserDTO {
     @NotNull
     private Gender gender;
 
+
     public String getPassWord() {
         return passWord;
     }

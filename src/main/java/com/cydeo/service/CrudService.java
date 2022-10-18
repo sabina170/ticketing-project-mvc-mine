@@ -1,15 +1,13 @@
 package com.cydeo.service;
 
-import com.cydeo.dto.UserDTO;
-
 import java.util.List;
 
-public interface CrudService<T,U> {
+public interface CrudService<T,ID> {
 
-    T save(T object);
-    T findById(U u);
+    T save(T obj);
+    T findById(ID id);
     List<T> findAll();
-    void deleteById(U u);
-    void update(T object);
+    void deleteById(ID id);
+    void update(T obj);
 
 }

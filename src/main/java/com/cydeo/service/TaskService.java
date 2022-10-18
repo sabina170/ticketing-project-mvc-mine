@@ -8,11 +8,9 @@ import java.util.List;
 
 public interface TaskService extends CrudService<TaskDTO,Long>{
 
-    List<TaskDTO> findAllTasksByManager(UserDTO manager);
-
+    List<TaskDTO> findTasksByManager(UserDTO manager);
     List<TaskDTO> findAllTasksByStatusIsNot(Status status);
-
-    List<TaskDTO> findAllTasksByStatusIs(Status status);
-
+    List<TaskDTO> findAllTasksByStatus(Status status);
     void updateStatus(TaskDTO task);
+
 }
