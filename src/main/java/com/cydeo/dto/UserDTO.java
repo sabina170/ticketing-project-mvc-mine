@@ -24,6 +24,8 @@ public class UserDTO {
     private String userName; //email
     @Pattern(regexp = "(?=.\\d)(?=.[a-z])(?=.*[A-Z]).{4,}")
     private String password;
+    @NotNull
+    private String confirmPassword;
     private boolean enabled;
     @Pattern(regexp = "^\\d{10}$")
     private String phone;
