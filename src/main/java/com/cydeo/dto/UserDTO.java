@@ -1,14 +1,13 @@
 package com.cydeo.dto;
 
-import com.cydeo.entity.Role;
 import com.cydeo.enums.Gender;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.validation.constraints.*;
 
-@Data
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDTO {
@@ -43,7 +42,6 @@ public class UserDTO {
 
     @NotNull
     private Gender gender;
-
 
     public String getPassWord() {
         return passWord;

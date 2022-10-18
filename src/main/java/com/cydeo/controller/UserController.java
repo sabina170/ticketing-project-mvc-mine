@@ -1,7 +1,6 @@
 package com.cydeo.controller;
 
 import com.cydeo.dto.UserDTO;
-import com.cydeo.entity.User;
 import com.cydeo.service.RoleService;
 import com.cydeo.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -26,15 +25,13 @@ public class UserController {
     @GetMapping("/create")
     public String createUser(Model model){
 
-        model.addAttribute("user",new UserDTO());
-        model.addAttribute("roles",roleService.findAll());
-        model.addAttribute("users",userService.findAll());
+        model.addAttribute("user", new UserDTO());
+        model.addAttribute("roles", roleService.findAll());
+        model.addAttribute("users", userService.findAll());
 
         return "/user/create";
+
     }
-
-
-
 
     @PostMapping("/create")
     public String insertUser(@Valid @ModelAttribute("user") UserDTO user, BindingResult bindingResult, Model model) {
@@ -47,20 +44,22 @@ public class UserController {
             return "/user/create";
 
         }
+
         userService.save(user);
+
         return "redirect:/user/create";
 
     }
 
-    //update:
     @GetMapping("/update/{username}")
-    public String editUser(@PathVariable("username") String username,  Model model){
+    public String editUser(@PathVariable("username") String username, Model model) {
 
-        model.addAttribute("user",userService.findById(username));
-        model.addAttribute("roles",roleService.findAll());
-        model.addAttribute("users",userService.findAll());
+        model.addAttribute("user", userService.findById(username));
+        model.addAttribute("roles", roleService.findAll());
+        model.addAttribute("users", userService.findAll());
 
         return "/user/update";
+
     }
 
     @PostMapping("/update")
@@ -70,23 +69,21 @@ public class UserController {
 
             model.addAttribute("roles", roleService.findAll());
             model.addAttribute("users", userService.findAll());
+
             return "/user/update";
 
         }
-        //update user:
+
         userService.update(user);
+
         return "redirect:/user/create";
 
     }
 
-    //delete:
     @GetMapping("/delete/{username}")
-    public String deleteUser(@PathVariable("username") String username){
-
+    public String deleteUser(@PathVariable("username") String username) {
         userService.deleteById(username);
         return "redirect:/user/create";
     }
 
-
 }
-

@@ -8,9 +8,7 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
-
-
-public class User extends BaseEntity{
+public class User extends BaseEntity {
 
     private String firstName;
     private String lastName;
@@ -32,4 +30,5 @@ public class User extends BaseEntity{
         this.role = role;
         this.gender = gender;
     }
+
 }

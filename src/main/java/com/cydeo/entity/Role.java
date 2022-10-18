@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 public class Role {
 
     private Long id;
-    private String description;  //role type
-
+    private String description;
 
 }

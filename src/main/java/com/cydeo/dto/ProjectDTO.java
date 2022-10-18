@@ -1,5 +1,4 @@
 package com.cydeo.dto;
-
 import com.cydeo.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,13 +36,9 @@ public class ProjectDTO {
 
     private Status projectStatus;
 
-    // we need them on project-status page for Project List table
     private int completeTaskCounts;
     private int unfinishedTaskCounts;
 
-    // @AllArgsConstructor - this constructor we use in project-status page for Project List table
-
-    //we should create this constructor without those 2 last fields, because we should use this constructor in project create page for Project Create table:
     public ProjectDTO(String projectName, String projectCode, UserDTO assignedManager, LocalDate startDate, LocalDate endDate, String projectDetail, Status projectStatus) {
         this.projectName = projectName;
         this.projectCode = projectCode;
@@ -53,4 +48,5 @@ public class ProjectDTO {
         this.projectDetail = projectDetail;
         this.projectStatus = projectStatus;
     }
+
 }

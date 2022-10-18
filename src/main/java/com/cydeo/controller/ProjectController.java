@@ -28,7 +28,7 @@ public class ProjectController {
     public String createProject(Model model) {
 
         model.addAttribute("project", new ProjectDTO());
-        model.addAttribute("managers", userService.findAllManagers());
+        model.addAttribute("managers", userService.findManagers());
         model.addAttribute("projects", projectService.findAll());
 
         return "/project/create";
@@ -40,7 +40,7 @@ public class ProjectController {
 
         if (bindingResult.hasErrors()) {
 
-            model.addAttribute("managers", userService.findAllManagers());
+            model.addAttribute("managers", userService.findManagers());
             model.addAttribute("projects", projectService.findAll());
 
             return "/project/create";
@@ -69,7 +69,7 @@ public class ProjectController {
     public String editProject(@PathVariable("projectCode") String projectCode, Model model){
 
         model.addAttribute("project", projectService.findById(projectCode));
-        model.addAttribute("managers", userService.findAllManagers());
+        model.addAttribute("managers", userService.findManagers());
         model.addAttribute("projects", projectService.findAll());
 
         return "/project/update";
@@ -81,7 +81,7 @@ public class ProjectController {
 
         if (bindingResult.hasErrors()) {
 
-            model.addAttribute("managers", userService.findAllManagers());
+            model.addAttribute("managers", userService.findManagers());
             model.addAttribute("projects", projectService.findAll());
 
             return "/project/update";
