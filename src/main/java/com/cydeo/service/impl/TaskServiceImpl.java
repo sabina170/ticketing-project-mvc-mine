@@ -13,20 +13,21 @@ import java.util.stream.Collectors;
 
 @Service
 public class TaskServiceImpl extends AbstractMapService<TaskDTO,Long> implements TaskService {
+
     @Override
     public TaskDTO save(TaskDTO task) {
 
-        if(task.getTaskStatus() == null){
+        if(task.getTaskStatus() == null)
             task.setTaskStatus(Status.OPEN);
 
-        }if(task.getAssignedDate() == null) {
+        if(task.getAssignedDate() == null)
             task.setAssignedDate(LocalDate.now());
 
-        }if(task.getId() == null){
+        if(task.getId()==null)
             task.setId(UUID.randomUUID().getMostSignificantBits());
-        }
 
         return super.save(task.getId(),task);
+
     }
 
     @Override
@@ -40,61 +41,45 @@ public class TaskServiceImpl extends AbstractMapService<TaskDTO,Long> implements
     }
 
     @Override
+    public void deleteById(Long id) {
+        super.deleteById(id);
+    }
+
+    @Override
     public void update(TaskDTO task) {
-//        if(task.getTaskStatus() == null){
-//            task.setTaskStatus(Status.OPEN);
-//
-//        }if(task.getAssignedDate() == null) {
-//            task.setAssignedDate(LocalDate.now());
-
-
-        // for update function, (for already existing tasks) we should keep status and date of task, so we will do:
 
         TaskDTO foundTask = findById(task.getId());
 
         task.setTaskStatus(foundTask.getTaskStatus());
         task.setAssignedDate(foundTask.getAssignedDate());
 
-
-        super.update(task.getId(), task);
+        super.update(task.getId(),task);
 
     }
 
     @Override
-    public void deleteById(Long id) {
-            super.deleteById(id);
-    }
-
-    @Override
-    public List<TaskDTO> findAllTasksByManager(UserDTO manager) {
+    public List<TaskDTO> findTasksByManager(UserDTO manager) {
         return findAll().stream()
-                .filter(task->task.getProject().getAssignedManager().equals(manager))
+                .filter(task -> task.getProject().getAssignedManager().equals(manager))
                 .collect(Collectors.toList());
     }
 
-
-    // for pending task page:
     @Override
     public List<TaskDTO> findAllTasksByStatusIsNot(Status status) {
-        return findAll().stream()
-                .filter(task->!task.getTaskStatus().equals(status))
+        return findAll().stream().filter(task -> !task.getTaskStatus().equals(status))
                 .collect(Collectors.toList());
-
     }
 
-    //for archive page:
     @Override
-    public List<TaskDTO> findAllTasksByStatusIs(Status status) {
-        return findAll().stream()
-                .filter(task->task.getTaskStatus().equals(status))
+    public List<TaskDTO> findAllTasksByStatus(Status status) {
+        return findAll().stream().filter(task -> task.getTaskStatus().equals(status))
                 .collect(Collectors.toList());
     }
 
-    //for 2nd step of update function on pending task page:
     @Override
     public void updateStatus(TaskDTO task) {
-
-        findById(task.getId()).setTaskStatus(task.getTaskStatus()); // first, status is updated
-        update(task);//second step is updated with the new status information.
+        findById(task.getId()).setTaskStatus(task.getTaskStatus());     // First, status is updated
+        update(task);     // Second, task is updated with the new status information
     }
+
 }

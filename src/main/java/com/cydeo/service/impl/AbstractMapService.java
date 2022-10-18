@@ -5,14 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractMapService <T,U> {
+public abstract class AbstractMapService <T,ID> {
 
-    //T- represents object type, U -represents id (for RoleDTO), username (for UserDTO)
+    public Map<ID,T> map = new HashMap<>(); //DB
 
-    public Map<U, T> map = new HashMap<>();  // this is my Custom DB
-
-    T save( U u, T object){
-        map.put(u, object);
+    T save(ID id,T object){
+        map.put(id,object);
         return object;
     }
 
@@ -20,18 +18,16 @@ public abstract class AbstractMapService <T,U> {
         return new ArrayList<>(map.values());
     }
 
-    T findById (U u){
-        return map.get(u);
+    T findById(ID id){
+        return map.get(id);
     }
 
-    void deleteById(U u){
-        map.remove(u);
+    void deleteById(ID id){
+        map.remove(id);
     }
 
-    void update(U u, T object){
-        map.put(u, object);
+    void update(ID id, T object){
+        map.put(id,object);
     }
-
-
 
 }
